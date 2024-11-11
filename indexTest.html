@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form name="uploadform" action="">
+        <div>
+            <input id="uploadInput" type="file" multiple>
+            <label for="fileNum">Selected Files:</label>
+            <output id="fileNum">0</output>
+            <label for="fileSize">Total Size:</label>
+            <output id="fileSize">0</output>
+        </div>
+        <input type="submit" value="Send File" id="">
+    </form>
+    <script>
+        const uploadInput = document.getElementById("uploadInput");
+        uploadInput.addEventListener("change",()=>{
+            // calculate the total size of the files!
+            let numberOfBytes = 0 ;
+            for(const file of uploadInput.files){
+                numberOfBytes += file.size
+            }
+            const units = [
+                "B",
+                "KiB",
+                "MiB",
+                "GiB",
+                "TiB",
+                "PiB",
+                "EiB",
+                "ZiB",
+                "YiB"
+            ];
+
+
+            const exponent =  Math.min(Math.floor(Math.log(numberOfBytes)/Math.log(1024)),units.length -1,);
+            const approx =  numberOfBytes / 1025 **exponent;
+            const output = exponent ===0 ? `${numberOfBytes} bytes` : `${approx.toFixed(3)} ${units[exponent]}(${numberOfBytes} bytes)`;
+
+            document.getElementById("fileNum").textContent =  uploadInput.files.length;
+            document.getElementById("fileSize").textContent = output;
+        },
+        false,
+    );
+    </script>
+</body>
+</html>
